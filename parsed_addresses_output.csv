@@ -1,0 +1,6 @@
+original_address,normalized,pin_code,care_of,landmark,entity_city_or_gpe,entity_location,city_from_pin,district_from_pin,state_from_pin
+"House No 23, Okhla Phase 3, New Delhi, Delhi - 110020",house number 23 okhla phase 3 new delhi delhi - 110020,110020,,,,,New Delhi,South Delhi,Delhi
+"S/O Rajesh Kumar, Near Sai Mandir, Agra, UP - 282005",son of rajesh kumar near sai mandir agra up - 282005,282005,son of rajesh kumar near sai mandir agra up ,near sai mandir agra up ,,,Agra,Agra,Uttar Pradesh
+Mehatpur village Nakodar Jalandhar Punjab 144205,mehatpur village nakodar jalandhar punjab 144205,144205,,,,,Jalandhar,Jalandhar,Punjab
+"C/O Anjali Verma, Opp. Techno India, Salt Lake Sec V, Kolkata 700091",care of anjali verma opposite techno india salt lake sector v kolkata 700091,700091,care of anjali verma opposite techno india salt lake sector v kolkata ,opposite techno india salt lake sector v kolkata 700091,india,,Kolkata,North 24 Parganas,West Bengal
+"W/O Ramesh Singh, Flat No. 5, Kukatpally, Hyderabad - 500062",wife of ramesh singh flat number 5 kukatpally hyderabad - 500062,500062,wife of ramesh singh flat number ,,singh,,Hyderabad,Hyderabad,Telangana
