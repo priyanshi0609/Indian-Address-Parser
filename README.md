@@ -28,8 +28,7 @@ A Python-based project that extracts structured components (like house number, s
 ```bash
 ├── addresses.csv # Input file containing raw address data
 ├── pincodes.csv # Optional - for validating pin codes
-├── parser.py # Main address parsing script
-├── requirements.txt # Python dependencies
+├── indian-address-parser.py # Main address parsing script
 └── README.md # Project documentation
 ```
 ## ⚙️ Setup Instructions
@@ -37,8 +36,16 @@ A Python-based project that extracts structured components (like house number, s
 1. **Clone the repository**
 
 ```bash
-git clone 
+git clone https://github.com/priyanshi0609/Indian-Address-Parser.git
 cd indian-address-parser
 ```
-
+2. **Install dependencies**
+```bash
+pip install pandas spacy
+python -m spacy download en_core_web_sm
+```
+3.**Run the parser**
+```bash
+python indian-address-parser.py
+```
 
