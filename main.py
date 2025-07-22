@@ -1,20 +1,38 @@
+# main.py
+from fastapi import FastAPI
+from pydantic import BaseModel
 from parser import IndianAddressParser
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
-def main():
-    print("🚀 Starting Address Parser...")
-    parser = IndianAddressParser()
-    
-    if parser.addresses_df is None:
-        print("❌ Could not load addresses.csv")
-        return
+app = FastAPI(title="Indian Address Parser API")
 
-    print(f"📄 Total addresses: {len(parser.addresses_df)}")
+# Allow CORS for local frontend testing if needed
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+# Init parser once (heavy operation)
+parser = IndianAddressParser()
+
+# Request schema
+class AddressRequest(BaseModel):
+    address: str
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Indian Address Parser API!"}
+
+@app.post("/parse")
+def parse_address(request: AddressRequest):
+    parsed = parser.parse_address(request.address)
+    return {"original": request.address, "parsed": parsed.to_dict()}
+
+@app.get("/parse-all")
+def parse_all_addresses():
     results = parser.parse_all_addresses()
-    print(f"✅ Parsed {len(results)} addresses")
-
     parser.export_results_json(results)
-    print("📤 Results written to parsed_output.json")
-
-if __name__ == "__main__":
-    main()
+    return JSONResponse(content={"message": "All addresses parsed and saved to parsed_output.json", "total": len(results)})
