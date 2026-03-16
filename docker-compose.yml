@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine          # lightweight official image
+    container_name: address_parser_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: parser_user
+      POSTGRES_PASSWORD: parser_pass
+      POSTGRES_DB: address_parser
+    ports:
+      - "5432:5432"                    # expose to localhost so FastAPI can connect
+    volumes:
+      - postgres_data:/var/lib/postgresql/data   # data persists across restarts
+
+volumes:
+  postgres_data:
