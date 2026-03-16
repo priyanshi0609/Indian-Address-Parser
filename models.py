@@ -124,3 +124,61 @@ class HealthResponse(BaseModel):
     status:      str
     version:     str
     datasets_ok: bool
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Database-backed response schemas
+# ──────────────────────────────────────────────────────────────────────────────
+
+class SingleParseResponseWithID(BaseModel):
+    """Same as SingleParseResponse but includes the DB row ID."""
+    request_id: int
+    original:   str
+    parsed:     ParsedAddressResponse
+
+
+class BulkParseResponseWithIDs(BaseModel):
+    total:   int
+    results: List[SingleParseResponseWithID]
+
+
+class HistoryItem(BaseModel):
+    id:               int
+    raw_address:      str
+    parsed_output:    dict
+    confidence_score: float
+    match_method:     str
+    created_at:       str
+
+
+class HistoryResponse(BaseModel):
+    total:   int
+    limit:   int
+    offset:  int
+    results: List[HistoryItem]
+
+
+class FeedbackRequest(BaseModel):
+    request_id:    int
+    field_name:    str     = Field(..., description="city|state|locality|house_number|etc.")
+    correct_value: str     = Field(..., min_length=1)
+    notes:         Optional[str] = None
+
+
+class FeedbackResponse(BaseModel):
+    id:            int
+    request_id:    int
+    field_name:    str
+    correct_value: str
+    notes:         Optional[str]
+    created_at:    str
+
+
+class StatsResponse(BaseModel):
+    total_parses:      int
+    avg_confidence:    float
+    high_confidence:   int
+    medium_confidence: int
+    low_confidence:    int
+    by_match_method:   dict
+    feedback_summary:  List[dict]
