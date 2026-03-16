@@ -247,3 +247,73 @@ def extract_state_from_text(text: str, state_mappings: dict) -> Optional[str]:
             return state_mappings[clean]
 
     return None
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# LOCALITY INFERENCE FROM LEFTOVER TOKENS
+# ──────────────────────────────────────────────────────────────────────────────
+
+def infer_locality_from_tokens(
+    text: str,
+    known_values: set,
+    skip_tokens: set,
+) -> Optional[str]:
+    """
+    After all explicit extractors have run, scan comma-separated segments
+    and return the first segment that:
+      1. Is not a known field value (city, district, state, pincode …)
+      2. Does not start with a skip-word (near, opp, son of …)
+      3. Is not purely numeric (e.g. the PIN code itself)
+      4. Has at least 3 characters
+
+    This catches locality names like "Shahdara", "Lajpat Nagar",
+    "Andheri West" that users write without any keyword prefix.
+
+    Example
+    ───────
+    Input:  "near durga mandir, shahdara, 110032"
+    known_values = {"delhi", "east delhi", "110032"}
+    skip_tokens  = {"near", "opp", ...}
+
+    Segments after split: ["near durga mandir", "shahdara", "110032"]
+    • "near durga mandir" → starts with skip-word "near" → skip
+    • "shahdara"          → not in known_values, not a skip-word → ✅ LOCALITY
+    • "110032"            → purely numeric → skip
+    """
+    # Split on commas (primary separator) and newlines
+    segments = re.split(r'[,\n]+', text)
+
+    for seg in segments:
+        seg = seg.strip(" .-")
+        if not seg or len(seg) < 3:
+            continue
+
+        # Skip purely numeric segments (PIN code, house numbers with no letters)
+        if re.fullmatch(r'[\d\s/\-]+', seg):
+            continue
+
+        # Skip segments whose first word is a known skip-token or known value
+        first_word = seg.split()[0].lower() if seg.split() else ""
+        if first_word in skip_tokens:
+            continue
+
+        seg_lower = seg.lower().strip()
+
+        # Skip if this segment IS one of the already-resolved values
+        if seg_lower in known_values:
+            continue
+
+        # Skip if the segment contains a resolved value as a substring
+        # (e.g. "delhi 110032" when city=Delhi)
+        if any(kv and kv in seg_lower for kv in known_values):
+            continue
+
+        # Skip single-character tokens
+        words_in_seg = [w for w in seg.split() if w.strip()]
+        if len(words_in_seg) == 1 and len(words_in_seg[0]) <= 2:
+            continue
+
+        # This is our best candidate for locality
+        return title_case_smart(seg_lower)
+
+    return None
