@@ -2,6 +2,8 @@ import axios from 'axios'
 
 const BASE_URL = import.meta.env.VITE_API_URL || '/api'
 
+console.log('API URL:', import.meta.env.VITE_API_URL)
+
 const http = axios.create({ baseURL: BASE_URL })
 
 export async function parseAddress(address, userId) {
