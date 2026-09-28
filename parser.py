@@ -50,9 +50,7 @@ from models import ParsedAddress
 from utils import get_abbreviations, get_state_mappings, normalize_text
 
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Noise tokens to ignore during leftover inference
-# ──────────────────────────────────────────────────────────────────────────────
+
 _SKIP_TOKENS: Set[str] = {
     "near", "opp", "opposite", "beside", "behind", "next", "to",
     "son", "of", "wife", "daughter", "husband", "father", "mother",

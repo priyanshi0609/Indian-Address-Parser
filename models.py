@@ -69,10 +69,6 @@ class ParsedAddress:
         return result
 
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Pydantic request / response schemas  (used by FastAPI)
-# ──────────────────────────────────────────────────────────────────────────────
-
 class AddressRequest(BaseModel):
     address: str = Field(
         ...,

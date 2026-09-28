@@ -19,9 +19,6 @@ from typing import Optional, Tuple
 
 from utils import title_case_smart
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Helper
-# ──────────────────────────────────────────────────────────────────────────────
 
 _F = re.IGNORECASE | re.UNICODE
 
@@ -36,10 +33,6 @@ def _first_match(patterns: list[re.Pattern], text: str, group: int = 1) -> Optio
                 return title_case_smart(val)
     return None
 
-
-# ──────────────────────────────────────────────────────────────────────────────
-# PIN CODE
-# ──────────────────────────────────────────────────────────────────────────────
 
 _PIN_PATTERNS = [
     # Explicit prefix:  "pin 226016" / "pin: 226016" / "pincode - 226016"

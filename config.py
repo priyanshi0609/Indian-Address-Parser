@@ -7,19 +7,13 @@ import logging
 import sys
 from pathlib import Path
 
-# ──────────────────────────────────────────────
-# Paths
-# ──────────────────────────────────────────────
+
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR  # CSVs sit next to the source files
 
 ADDRESSES_CSV   = DATA_DIR / "addresses.csv"
 PINCODES_CSV    = DATA_DIR / "pincodes.csv"
 CITIES_CSV      = DATA_DIR / "Cities_Towns_District_State_India.csv"
-
-# ──────────────────────────────────────────────
-# Parser thresholds
-# ──────────────────────────────────────────────
 FUZZY_CITY_THRESHOLD   = 85   # minimum rapidfuzz score for city match
 FUZZY_STATE_THRESHOLD  = 80   # minimum rapidfuzz score for state match
 
@@ -34,9 +28,7 @@ CONFIDENCE_WEIGHTS = {
     "landmark": 0.05,
 }
 
-# ──────────────────────────────────────────────
-# Logging
-# ──────────────────────────────────────────────
+
 LOG_LEVEL = logging.INFO
 LOG_FORMAT = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
